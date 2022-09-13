@@ -38,7 +38,10 @@ impl<'a> fmt::Display for Cell<'a> {
 
 type Grid<'a> = [[Cell<'a>; 80]; 16];
 
-struct Player {}
+struct Player {
+    x: i32,
+    y: i32,
+}
 
 struct Game<'a> {
     player: &'a Player,
@@ -56,14 +59,22 @@ impl<'a> Game<'a> {
     }
 }
 
-
 fn main() {
-    let player = Player{};
+    let player = Player{x:39, y:7};
     let grid: Grid = [[Cell(Block::Empty, None); 80]; 16];
     let mut game = Game{player: &player, grid};
 
-    game.grid[7][39].1 = Some(&player);
     game.grid[15][79].0 = Block::Red;
+
+    for i in 0..16 {
+        game.grid[i][0].0 = Block::Blue;
+        game.grid[i][79].0 = Block::Blue;
+    }
+
+    for i in 0..80 {
+        game.grid[0][i].0 = Block::Blue;
+        game.grid[15][i].0 = Block::Blue;
+    }
 
     game.print()
 
